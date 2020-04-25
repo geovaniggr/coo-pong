@@ -1,5 +1,4 @@
 import java.awt.Color;
-
 /**
  * Esta classe representa a bola usada no jogo. A classe princial do jogo (Pong)
  * instancia um objeto deste tipo quando a execução é iniciada.
@@ -44,16 +43,16 @@ public class Ball {
 		this.INICIO_X = cx;
 		this.INICIO_Y = cy;
 	}
-	
+
 	/**
 	 * Método chamado sempre que a bola precisa ser (re)desenhada.
 	 */
-	
+
 	public void draw() {
 		GameLib.setColor(this.color);
 		GameLib.fillRect(cx, cy, width, height);
 	}
-	
+
 	/**
 	 * Método chamado quando o estado (posição) da bola precisa ser atualizado.
 	 * 
@@ -61,10 +60,10 @@ public class Ball {
 	 *              %f", cx, cy); }s que se passou entre o ciclo anterior de
 	 *              atualização do jogo e o atual.
 	 */
-	
+
 	public void update(long delta) {
 		double nextPosition = (delta / speed) / 10;
-		this.cx += nextPosition * direcaoX; 
+		this.cx += nextPosition * direcaoX;
 		this.cy += nextPosition * direcaoY;
 	}
 
@@ -86,14 +85,14 @@ public class Ball {
 
 	public void onWallCollision(String wallId) {
 
-		switch(wallId){
+		switch (wallId) {
 			case "Right":
 				this.direcaoX = -1;
 				reset();
 				break;
 			case "Left":
 				reset();
-				this.direcaoX = 1; 
+				this.direcaoX = 1;
 				break;
 			case "Bottom":
 				this.direcaoY = changeDirection();
@@ -102,9 +101,7 @@ public class Ball {
 				this.direcaoY = changeDirection();
 				break;
 		}
-
 	}
-
 	/**
 	 * Método que verifica se houve colisão da bola com uma parede.
 	 * 
@@ -115,27 +112,24 @@ public class Ball {
 	 */
 
 	public boolean checkCollision(Wall wall) {
-		switch(wall.getId()){
+		switch (wall.getId()) {
 			case "Right":
-				if((this.cx + this.width / 2) > (wall.getCx() - wall.getWidth() / 2)) {
-					System.out.println(this.cx);
+				if ((this.cx + this.width / 2) > (wall.getCx() - wall.getWidth() / 2)) {
 					return true;
 				}
 				break;
-				case "Left":
-				if((this.cx - this.width / 2) < ( wall.getCx() + wall.getWidth() / 2)){
-					System.out.println(this.cx);
+			case "Left":
+				if ((this.cx - this.width / 2) < (wall.getCx() + wall.getWidth() / 2)) {
 					return true;
 				}
 				break;
 			case "Top":
-				if((this.cy - this.height / 2) < ( wall.getCy() + wall.getHeight() / 2)){
-					System.out.println(this.cx);
+				if ((this.cy - this.height / 2) < (wall.getCy() + wall.getHeight() / 2)) {
 					return true;
 				}
 				break;
 			case "Bottom":
-				if((this.cy + this.height /2 ) > ( wall.getCy() - wall.getHeight() / 2)){
+				if ((this.cy + this.height / 2) > (wall.getCy() - wall.getHeight() / 2)) {
 					return true;
 				}
 				break;
@@ -144,32 +138,30 @@ public class Ball {
 	}
 
 	/**
-	 * Método que verifica se houve colisão da bola com um jogador.
-	 * BOLA: 124.60000000000973 Bola - Negocio114.60000000000973
-
 	 * 
 	 * @param player referência para uma instância de Player contra o qual será
 	 *               verificada a ocorrência de colisão da bola.
 	 * @return um valor booleano que indica a ocorrência (true) ou não (false) de
 	 *         colisão.
 	 */
+	BR
 
 	public boolean checkCollision(Player player) {
 
-		switch(player.getId()){
+		switch (player.getId()) {
 			case "Player 2":
-				System.out.println(player.getCx());
-				if((this.cx + this.width / 2) > (player.getCx() - player.getWidth() / 2)
-					&& (this.cy + this.height / 2) > (player.getCy() - player.getHeight() / 2)
-					&& (this.cy - this.height /2) < (player.getCy() + player.getHeight() / 2)) {
-						return true;
+				if ((this.cx + this.width / 2) > (player.getCx() - player.getWidth() / 2)
+						&& (this.cy + this.height / 2) > (player.getCy() - player.getHeight() / 2)
+						&& (this.cy - this.height / 2) < (player.getCy() + player.getHeight() / 2)) {
+					this.cx -= 5;
+					return true;
 				}
 				break;
-			case "Player 1":{
-				if( (this.cx - this.width / 2) < (player.getCx() + player.getWidth()/2)
-					&& (this.cy + this.height / 2) > (player.getCy() - player.getHeight() / 2)
-					&& (this.cy - this.height /2) < (player.getCy() + player.getHeight() / 2)
-				){
+			case "Player 1": {
+				if ((this.cx - this.width / 2) < (player.getCx() + player.getWidth() / 2)
+						&& (this.cy + this.height / 2) > (player.getCy() - player.getHeight() / 2)
+						&& (this.cy - this.height / 2) < (player.getCy() + player.getHeight() / 2)) {
+					this.cx += 5;
 					return true;
 				}
 			}
@@ -211,51 +203,24 @@ public class Ball {
 		return this.speed;
 	}
 
-	private void reset(){
+	private void reset() {
 		this.cx = INICIO_X;
 		this.cy = INICIO_Y;
 	}
 
-	private int changeDirection(){
-
-		if(this.speed > 0) {
-			if(this.cx >= 370){
-				if(this.cy > 225){
-					return -1;
-				}else {
-					return 1;
-				}
-			}else{
-				if(this.cy > 225){
-					return -1;
-				}else {
-					return 1;
-				}
+	private int changeDirection() {
+		if (this.speed > 0) {
+			if (this.cy > 225) {
+				return -1;
+			} else {
+				return 1;
 			}
 		} else {
-			if(this.cx >= 370){
-				if(this.cy > 225){
-					return 1;
-				} else {
-					return -1;
-				}
+			if (this.cy > 225) {
+				return 1;
 			} else {
-				if(this.cy > 225){
-					return 1;
-				} else {
-					return -1;
-				}
+				return -1;
 			}
 		}
-
 	}
-
 }
-
-/***
- * 225
- * 370
- * 
- * ^CLeft --- 10.0 Right --- 790.0 Top --- 400.0 Bottom --- 400.0
- * 
- */

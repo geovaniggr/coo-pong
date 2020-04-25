@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 /**
 	Esta classe representa um placar no jogo. A classe princial do jogo (Pong)
 	instancia dois objeto deste tipo, cada um responsável por gerenciar a pontuação
@@ -22,19 +24,16 @@ public class Score {
 
 	public void draw(){
 
-		String valor = String.valueOf(score);
-
-		if(this.playerId.equals("Player 2")){
-			GameLib.drawText(this.playerId, 70, GameLib.ALIGN_RIGHT);
-			GameLib.drawText(valor, 90, GameLib.ALIGN_RIGHT);
+		String scoreMessage = String.format("%s : %d", playerId, score);
+		if(this.playerId.equals("Player 1")){
+			GameLib.setColor(Color.GREEN);
+			GameLib.drawText(scoreMessage, 70, GameLib.ALIGN_LEFT);			
 		}
 		else{
-			GameLib.drawText(this.playerId, 70, GameLib.ALIGN_LEFT);			
-			GameLib.drawText(valor, 90,  GameLib.ALIGN_LEFT);
+			GameLib.setColor(Color.BLUE);
+			GameLib.drawText(scoreMessage, 70, GameLib.ALIGN_RIGHT);
 		}
-
 	}
-
 	/**
 		Método que incrementa em 1 unidade a contagem de pontos.
 	*/
